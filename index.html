@@ -58,7 +58,7 @@ function openPlayer(id, title, isTv = false) {
   document.getElementById('player').style.display = 'flex';
   document.getElementById('pt').textContent = title;
   
-  // Rota estática absoluta com aspas simples padrão para evitar qualquer emenda incorreta
+  // Montagem de link direta e limpa para evitar qualquer tipo de erro de caractere colado
   var url = '';
   if (isTv) {
     url = 'https://vidsrc.to' + id + '/1/1';
