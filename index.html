@@ -58,12 +58,12 @@ function openPlayer(id, title, isTv = false) {
   document.getElementById('player').style.display = 'flex';
   document.getElementById('pt').textContent = title;
   
-  // PROVEDOR ATUALIZADO E DA CORRENTE ATIVA (VidSrc)
-  var url = isTv 
-    ? "https://vidsrc.to" + id + "/1/1"
-    : "https://vidsrc.to" + id;
+  // Rota totalmente limpa por partes isoladas para o navegador nunca emendar o texto
+  var linkBase = isTv ? "https://vidsrc.to" : "https://vidsrc.to";
+  var linkFinal = isTv ? (id + "/1/1") : id;
+  var urlCompleta = linkBase + linkFinal;
     
-  document.getElementById('stage').innerHTML = '<iframe src="' + url + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
+  document.getElementById('stage').innerHTML = '<iframe src="' + urlCompleta + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
 }
 
 function closePlayer() {
