@@ -58,14 +58,13 @@ function openPlayer(id, title, isTv = false) {
   document.getElementById('player').style.display = 'flex';
   document.getElementById('pt').textContent = title;
   
-  // URLs totalmente corrigidas com os caracteres de rota exatos (?video_id=)
-  let url = isTv 
-    ? "https://multiembed.eu" + id + "&tmdb=1&s=1&e=1" 
-    : "https://multiembed.eu" + id + "&tmdb=1";
+  // Estrutura de link montada por partes para evitar emendas coladas
+  var base = "https://multiembed.eu";
+  var params = isTv ? ("?video_id=" + id + "&tmdb=1&s=1&e=1") : ("?video_id=" + id + "&tmdb=1");
+  var url = base + params;
     
   document.getElementById('stage').innerHTML = '<iframe src="' + url + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
 }
-
 
 function closePlayer() {
   document.getElementById('player').style.display = 'none';
@@ -87,7 +86,7 @@ function render() {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = '<p>' + m.title + '</p>';
-    card.onclick = () => openPlayer(m.id, m.title, false);
+    card.onclick = function() { openPlayer(m.id, m.title, false); };
     movieRow.appendChild(card);
   });
   movieSec.appendChild(movieRow);
@@ -104,7 +103,7 @@ function render() {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = '<p>' + s.name + '</p>';
-    card.onclick = () => openPlayer(s.id, s.name, true);
+    card.onclick = function() { openPlayer(s.id, s.name, true); };
     tvRow.appendChild(card);
   });
   tvSec.appendChild(tvRow);
