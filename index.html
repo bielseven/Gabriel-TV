@@ -1,1 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Sala</title>
+<style>
+  body { background: #0e0e13; color: #f3f1ee; font-family: system-ui, sans-serif; margin: 0; padding: 20px; }
+  header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #2c2c38; padding-bottom: 15px; margin-bottom: 20px; }
+  h1 { color: #e0242f; margin: 0; }
+  input { background: #1b1b24; border: 1px solid #2c2c38; color: #fff; padding: 10px; border-radius: 8px; width: 250px; }
+  h3 { color: #9b98a3; margin: 20px 0 10px; }
+  .row { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 15px; }
+  .card { background: #1b1b24; border: 1px solid #2c2c38; border-radius: 10px; padding: 15px; min-width: 160px; text-align: center; cursor: pointer; }
+  .card:hover { border-color: #e0242f; transform: scale(1.02); }
+  .ov { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; flex-direction: column; z-index: 99; }
+  .pbar { background: #000; padding: 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #222; }
+  .stage { flex: 1; background: #000; }
+  iframe { width: 100%; height: 100%; border: 0; }
+  .btn { background: #e0242f; color: #fff; border: 0; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sala</h1>
+  <input id="q" type="search" placeholder="Buscar filmes ou séries...">
+</header>
+
+<div id="rows"></div>
+
+<div class="ov" id="player" style="display: none;">
+  <div class="pbar">
+    <b id="pt"></b>
+    <button class="btn" onclick="closePlayer()">Fechar Player</button>
+  </div>
+  <div class="stage" id="stage"></div>
+</div>
+
+<script>
+const LOCAL_DATABASE = {
+  movies: [
+    { id: 1022789, title: 'Divertida Mente 2' },
+    { id: 533535, title: 'Deadpool & Wolverine' },
+    { id: 157336, title: 'Interestelar' },
+    { id: 27205, title: 'A Origem' },
+    { id: 603, title: 'Matrix' }
+  ],
+  tv: [
+    { id: 1396, name: 'Breaking Bad' },
+    { id: 1399, name: 'Game of Thrones' },
+    { id: 66732, name: 'Stranger Things' }
+  ]
+};
+
+let query = '';
+
+function openPlayer(id, title, isTv = false) {
+  document.getElementById('player').style.display = 'flex';
+  document.getElementById('pt').textContent = title;
+  
+  // Link feito em formato de soma de textos simples para o navegador não bugar
+  var base = "https://vidsrc.to";
+  var tipo = isTv ? "tv/" : "movie/";
+  var fim = isTv ? (id + "/1/1") : id;
+  var urlCompleta = base + tipo + fim;
+    
+  document.getElementById('stage').innerHTML = '<iframe src="' + urlCompleta + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
+}
+
+function closePlayer() {
+  document.getElementById('player').style.display = 'none';
+  document.getElementById('stage').innerHTML = '';
+}
+
+function render() {
+  const container = document.getElementById('rows');
+  container.innerHTML = '';
+
+  // Filmes
+  const movieSec = document.createElement('div');
+  movieSec.innerHTML = '<h3>Filmes Disponíveis</h3>';
+  const movieRow = document.createElement('div');
+  movieRow.className = 'row';
+  
+  LOCAL_DATABASE.movies.forEach(m => {
+    if (query && !m.title.toLowerCase().includes(query)) return;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = '<p>' + m.title + '</p>';
+    card.onclick = function() { openPlayer(m.id, m.title, false); };
+    movieRow.appendChild(card);
+  });
+  movieSec.appendChild(movieRow);
+  container.appendChild(movieSec);
+
+  // Séries
+  const tvSec = document.createElement('div');
+  tvSec.innerHTML = '<h3>Séries Disponíveis</h3>';
+  const tvRow = document.createElement('div');
+  tvRow.className = 'row';
+  
+  LOCAL_DATABASE.tv.forEach(s => {
+    if (query && !s.name.toLowerCase().includes(query)) return;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = '<p>' + s.name + '</p>';
+    card.onclick = function() { openPlayer(s.id, s.name, true); };
+    tvRow.appendChild(card);
+  });
+  tvSec.appendChild(tvRow);
+  container.appendChild(tvSec);
+}
+
+document.getElementById('q').oninput = (e) => {
+  query = e.target.value.toLowerCase().trim();
+  render();
+};
+
+render();
+</script>
+</body>
+</html>
 
