@@ -58,13 +58,15 @@ function openPlayer(id, title, isTv = false) {
   document.getElementById('player').style.display = 'flex';
   document.getElementById('pt').textContent = title;
   
-  // Link feito em formato de soma de textos simples para o navegador não bugar
-  var base = "https://vidsrc.to";
-  var tipo = isTv ? "tv/" : "movie/";
-  var fim = isTv ? (id + "/1/1") : id;
-  var urlCompleta = base + tipo + fim;
+  // Rota estática absoluta com aspas simples padrão para evitar qualquer emenda incorreta
+  var url = '';
+  if (isTv) {
+    url = 'https://vidsrc.to' + id + '/1/1';
+  } else {
+    url = 'https://vidsrc.to' + id;
+  }
     
-  document.getElementById('stage').innerHTML = '<iframe src="' + urlCompleta + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
+  document.getElementById('stage').innerHTML = '<iframe src="' + url + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
 }
 
 function closePlayer() {
@@ -120,4 +122,3 @@ render();
 </script>
 </body>
 </html>
-
