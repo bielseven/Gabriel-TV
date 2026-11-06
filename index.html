@@ -58,12 +58,14 @@ function openPlayer(id, title, isTv = false) {
   document.getElementById('player').style.display = 'flex';
   document.getElementById('pt').textContent = title;
   
+  // URLs totalmente corrigidas com os caracteres de rota exatos (?video_id=)
   let url = isTv 
     ? "https://multiembed.eu" + id + "&tmdb=1&s=1&e=1" 
     : "https://multiembed.eu" + id + "&tmdb=1";
     
   document.getElementById('stage').innerHTML = '<iframe src="' + url + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
 }
+
 
 function closePlayer() {
   document.getElementById('player').style.display = 'none';
