@@ -58,12 +58,14 @@ function openPlayer(id, title, isTv = false) {
   document.getElementById('player').style.display = 'flex';
   document.getElementById('pt').textContent = title;
   
-  // Montagem de link direta e limpa para evitar qualquer tipo de erro de caractere colado
+  // Script atualizado que força o navegador a quebrar o cache de links colados velhos
+  var random = Math.floor(Math.random() * 99999);
   var url = '';
+  
   if (isTv) {
-    url = 'https://vidsrc.to' + id + '/1/1';
+    url = 'https://vidsrc.to' + id + '/1/1?v=' + random;
   } else {
-    url = 'https://vidsrc.to' + id;
+    url = 'https://vidsrc.to' + id + '?v=' + random;
   }
     
   document.getElementById('stage').innerHTML = '<iframe src="' + url + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
