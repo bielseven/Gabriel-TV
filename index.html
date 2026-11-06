@@ -58,10 +58,10 @@ function openPlayer(id, title, isTv = false) {
   document.getElementById('player').style.display = 'flex';
   document.getElementById('pt').textContent = title;
   
-  // Estrutura de link montada por partes para evitar emendas coladas
-  var base = "https://multiembed.eu";
-  var params = isTv ? ("?video_id=" + id + "&tmdb=1&s=1&e=1") : ("?video_id=" + id + "&tmdb=1");
-  var url = base + params;
+  // PROVEDOR ATUALIZADO E DA CORRENTE ATIVA (VidSrc)
+  var url = isTv 
+    ? "https://vidsrc.to" + id + "/1/1"
+    : "https://vidsrc.to" + id;
     
   document.getElementById('stage').innerHTML = '<iframe src="' + url + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
 }
