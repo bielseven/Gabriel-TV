@@ -58,14 +58,11 @@ function openPlayer(id, title, isTv = false) {
   document.getElementById('player').style.display = 'flex';
   document.getElementById('pt').textContent = title;
   
-  // Linhas corrigidas com crases para injetar o número real do filme/série
   let url = isTv 
-    ? `https://multiembed.eu{id}&tmdb=1&s=1&e=1` 
-    : `https://multiembed.eu{id}&tmdb=1`;
+    ? "https://multiembed.eu" + id + "&tmdb=1&s=1&e=1" 
+    : "https://multiembed.eu" + id + "&tmdb=1";
     
-  document.getElementById('stage').innerHTML = `<iframe src="${url}" allowfullscreen allow="autoplay; fullscreen"></iframe>`;
-}
-
+  document.getElementById('stage').innerHTML = '<iframe src="' + url + '" allowfullscreen allow="autoplay; fullscreen"></iframe>';
 }
 
 function closePlayer() {
@@ -87,7 +84,7 @@ function render() {
     if (query && !m.title.toLowerCase().includes(query)) return;
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `<p>${m.title}</p>`;
+    card.innerHTML = '<p>' + m.title + '</p>';
     card.onclick = () => openPlayer(m.id, m.title, false);
     movieRow.appendChild(card);
   });
@@ -104,7 +101,7 @@ function render() {
     if (query && !s.name.toLowerCase().includes(query)) return;
     const card = document.createElement('div');
     card.className = 'card';
-    card.innerHTML = `<p>${s.name}</p>`;
+    card.innerHTML = '<p>' + s.name + '</p>';
     card.onclick = () => openPlayer(s.id, s.name, true);
     tvRow.appendChild(card);
   });
